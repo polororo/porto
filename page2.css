@@ -25,7 +25,7 @@
     padding-left: 10px;
     position: fixed;
   }
-  
+
   main {
     color: #ffffff;
     font-style: oblique;
@@ -264,4 +264,6 @@
       padding-right: 20px;
     }
   } */
-  
+
+  .image img {
+  }
