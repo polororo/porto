@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire</title>
+    <link rel="stylesheet" href="form.css">
+    <link rel="stylesheet" href="form.php">
+</head>
+
+<body>
+    <div class="formulaire">
+        <h1>Formulaire d'inscription</h1>
+        <form action="form.php" method="post">
+            <p>Entrer votre prénom</p>
+            <input type="text" name="firstname" required>
+            <p>Entrer votre nom</p>
+            <input type="text" name="lastname" required>
+            <p>Entrer votre e-mail</p>
+            <input type="email" name="email" required>
+            <p>Entrer votre mot de passe</p>
+            <input type="password" name="password" required>
+            <p><input type="submit" value="submit" class="valider"></p>
+        </form>
+    </div>
+</body>
+
+</html>
