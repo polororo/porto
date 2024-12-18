@@ -41,13 +41,26 @@
                        0 0 30px #45e8fd;
         }
 
+        @media (max-width: 768px) {
+            .side-text {
+                font-size: 2em;
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .side-text {
+                font-size: 1.5em;
+                padding: 5px;
+            }
+        }
+
         .side-text.visible {
             left: 20px; 
             opacity: 1;
             visibility: visible;
         }
 
-        
         .cursor {
             width: 20px;
             height: 20px;
@@ -63,7 +76,15 @@
             animation: cursorAnimation 2s infinite;
         }
 
-        
+        @media (max-width: 768px) {
+            .cursor {
+                display: none;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+
         .contact-text {
             position: fixed;
             top: -100px;
@@ -87,7 +108,20 @@
             animation: morph 8s ease-in-out infinite;
         }
 
-       
+        @media (max-width: 768px) {
+            .contact-text {
+                font-size: 1.1em;
+                padding: 8px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-text {
+                font-size: 1em;
+                padding: 6px 12px;
+                right: 10px;
+            }
+        }
 
         .contact-text.visible {
             opacity: 1;
@@ -123,9 +157,8 @@
             font-family: 'Arial', sans-serif;
             color: #ff04ff;
             text-shadow: 0 0 15px #ff04ff;
- 
             opacity: 0;
-            transition: opacity 0.5s ease-in;
+            transition: all 0.5s ease-in;
             padding: 30px;
             border: 4px solid #45e8fd;
             border-radius: 10px;
@@ -134,6 +167,23 @@
             animation: swingSign 3s ease-in-out infinite;
             box-shadow: 0 0 15px #45e8fd,
                        0 0 30px #45e8fd;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5em;
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2em;
+                padding: 15px;
+                margin-top: 20px;
+            }
         }
 
         .title::before {
@@ -170,7 +220,6 @@
             }
         }
         
-        
         body::before {
             content: '';
             position: fixed;
@@ -181,7 +230,6 @@
             z-index: -1;
         }
 
-       
         #loader ~ body::before {
             background: radial-gradient(circle, transparent 20%, #000 80%),
                         url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="1" fill="white"/></svg>') repeat;
@@ -196,6 +244,12 @@
             width: 300px;
             text-align: center;
             z-index: 1;
+        }
+
+        @media (max-width: 480px) {
+            .loader-container {
+                width: 80%;
+            }
         }
 
         .progress-bar {
@@ -230,6 +284,28 @@
             border-radius: 75px;
             box-shadow: 0 0 15px #45e8fd,
                        0 0 30px #45e8fd;
+            transition: all 0.8s ease;
+        }
+
+        .fly-away {
+            transform: translateY(-200vh) !important;
+            opacity: 0 !important;
+        }
+
+        @media (max-width: 768px) {
+            .projects-list {
+                width: 90%;
+                padding: 20px;
+                border-radius: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .projects-list {
+                width: 95%;
+                padding: 15px;
+                border-radius: 25px;
+            }
         }
 
         .projects-list h3 {
@@ -238,6 +314,20 @@
             text-align: center;
             font-size: 2.3em;
             margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .projects-list h3 {
+                font-size: 2em;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .projects-list h3 {
+                font-size: 1.8em;
+                margin-bottom: 15px;
+            }
         }
 
         .projects-list ul {
@@ -249,6 +339,20 @@
             gap: 20px;
         }
 
+        @media (max-width: 768px) {
+            .projects-list ul {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .projects-list ul {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
         .project-item {
             padding: 20px;
             color: rgba(255, 255, 255, 0.8);
@@ -256,6 +360,18 @@
             border-radius: 5px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .project-item {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .project-item {
+                padding: 10px;
+            }
         }
 
         .project-item:hover {
@@ -277,6 +393,12 @@
             margin: 10px 0;
         }
 
+        @media (max-width: 480px) {
+            .project-item img {
+                height: 150px;
+            }
+        }
+
         .project-item p {
             margin: 10px 0;
             line-height: 1.6;
@@ -284,6 +406,56 @@
 
         .hidden {
             display: none;
+        }
+
+        .contact-form {
+            position: fixed;
+            top: 150%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 600px;
+            background: #0b0516;
+            padding: 40px;
+            border-radius: 20px;
+            border: 4px solid #45e8fd;
+            box-shadow: 0 0 15px #45e8fd,
+                       0 0 30px #45e8fd;
+            transition: all 0.8s ease;
+            z-index: 1001;
+        }
+
+        .contact-form.show {
+            top: 50%;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #45e8fd;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .contact-form button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 10px 20px;
+            border: 1px solid #45e8fd;
+            box-shadow: 0 0 10px #45e8fd;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background: #45e8fd;
+            box-shadow: 0 0 15px #45e8fd;
         }
 
         @keyframes fadeIn {
@@ -315,7 +487,7 @@
 </head>
 <body>
     <?php
-    $conn = new PDO("mysql:host=localhost;dbname=dbd", "root", "root");
+    $conn = new PDO("mysql:host=localhost;dbname=cyberfolio;charset=utf8", "root", "root");
     $im1 = $conn->prepare("SELECT * FROM baobab");
     $im1->execute();
     $results = $im1->fetchAll(PDO::FETCH_ASSOC);
@@ -327,7 +499,7 @@
     <div class="side-text" id="side-text">Loann Ordvpn</div>
     <div class="cursor"></div>
     <a href="#" class="contact-text" id="contact-btn">Contact</a>
-    <h1 class="title" id="mainTitle">CyberFolio</h1>
+    <button class="title" id="mainTitle">CyberFolio</button>
     <div class="loader-container" id="loader">
         <div class="progress-bar">
             <div class="progress"></div>
@@ -343,35 +515,23 @@
                     foreach($results as $row) {
                 ?>
                 <div class="project-item">
-                    <h4>Exploration de Mars</h4>
+                    <h4><?= $row['titre'] ?></h4>
                     <img src="<?= $row['img'] ?>" alt="Mars Exploration">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+                    <p><?= $row['des'] ?></p>
                 </div>
                 <?php
                     }
                 ?>
-                <!-- <div class="project-item">
-                    <h4>Téléportation quantique</h4>
-                    <img src="<?= $results['img'] ?>" alt="Quantum Teleportation">
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.</p>
-                </div>
-                <div class="project-item">
-                    <h4>Intelligence artificielle</h4>
-                    <img src="img4.webp" alt="AI Consciousness">
-                    <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.</p>
-                </div>
-                <div class="project-item">
-                    <h4>Voyage dans le temps</h4>
-                    <img src="img3.webp" alt="Time Travel">
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo.</p>
-                </div>
-                <div class="project-item">
-                    <h4>Cités sous-marines</h4>
-                    <img src="im5.webp" alt="Underwater Cities">
-                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem.</p>
-                </div> -->
             </ul>
         </div>
+    </div>
+
+    <div class="contact-form" id="contactForm">
+        <h2 style="color: #a6a6a6; text-align: center; font-size: 2em;">Contactez-moi</h2>
+        <input type="text" placeholder="Votre nom" required>
+        <input type="email" placeholder="Votre email" required>
+        <textarea rows="5" placeholder="Votre message" required></textarea>
+        <button type="submit">Envoyer</button>
     </div>
 
     <script>
@@ -392,6 +552,29 @@
         
         }, 2000);
         
+        document.getElementById('contact-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Faire s'envoler tous les éléments
+            document.getElementById('side-text').classList.add('fly-away');
+            document.querySelector('.projects-list').classList.add('fly-away');
+            
+            // Afficher le formulaire de contact
+            setTimeout(() => {
+                document.getElementById('contactForm').classList.add('show');
+            }, 500);
+        });
+
+        document.getElementById('mainTitle').addEventListener('click', () => {
+            // Retirer la classe show du formulaire de contact
+            document.getElementById('contactForm').classList.remove('show');
+            
+            // Retirer la classe fly-away des éléments
+            setTimeout(() => {
+                document.getElementById('side-text').classList.remove('fly-away');
+                document.querySelector('.projects-list').classList.remove('fly-away');
+            }, 500);
+        });
 
     </script>
 </body>
