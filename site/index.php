@@ -169,6 +169,7 @@
                        0 0 30px #45e8fd;
             cursor: pointer;
             border: none;
+            z-index: 1002;
         }
 
         @media (max-width: 768px) {
@@ -413,32 +414,47 @@
             top: 150%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            max-width: 600px;
+            width: 500px;
             background: #0b0516;
-            padding: 40px;
+            padding: 25px;
             border-radius: 20px;
             border: 4px solid #45e8fd;
             box-shadow: 0 0 15px #45e8fd,
                        0 0 30px #45e8fd;
             transition: all 0.8s ease;
             z-index: 1001;
+            margin-top: 50px;
         }
 
         .contact-form.show {
-            top: 50%;
+            top: 55%;
         }
 
-        .contact-form input,
-        .contact-form textarea {
+        .contact-form input {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 8px;
+            margin: 5px 0;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid #45e8fd;
             border-radius: 5px;
             color: #fff;
             font-family: 'Arial', sans-serif;
+        }
+
+        .contact-form textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid #45e8fd;
+            border-radius: 5px;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            height: 100px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
         }
 
         .contact-form button {
@@ -483,11 +499,26 @@
                 opacity: 1;
             }
         }
+
+        .contact-form label {
+            display: block;
+            color: #45e8fd;
+            margin-bottom: 5px;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.1em;
+            text-shadow: 0 0 5px #45e8fd;
+        }
+
+        @media (max-width: 768px) {
+            .contact-form {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
     <?php
-    $conn = new PDO("mysql:host=localhost;dbname=cyberfolio;charset=utf8", "root", "root");
+    $conn = new PDO("mysql:host=localhost;dbname=dbd;charset=utf8", "root", "root");
     $im1 = $conn->prepare("SELECT * FROM baobab");
     $im1->execute();
     $results = $im1->fetchAll(PDO::FETCH_ASSOC);
@@ -526,12 +557,63 @@
         </div>
     </div>
 
+
     <div class="contact-form" id="contactForm">
-        <h2 style="color: #a6a6a6; text-align: center; font-size: 2em;">Contactez-moi</h2>
-        <input type="text" placeholder="Votre nom" required>
-        <input type="email" placeholder="Votre email" required>
-        <textarea rows="5" placeholder="Votre message" required></textarea>
-        <button type="submit">Envoyer</button>
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            try {
+                $conn = new PDO("mysql:host=localhost;dbname=dbd", "root", "root");
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
+                $stmt = $conn->prepare("INSERT INTO contact (nom, mail, sujet, msg) VALUES (:nom, :mail, :sujet, :msg)");
+                
+                $stmt->execute([
+                    ':nom' => htmlspecialchars($_POST['nom']),
+                    ':mail' => htmlspecialchars($_POST['mail']),
+                    ':sujet' => htmlspecialchars($_POST['sujet']),
+                    ':msg' => htmlspecialchars($_POST['msg'])
+                ]);
+                
+                $trans = array(
+                    'message' => $_POST['msg'],
+                    'email' => $_POST['mail'],
+                    'sujet' => $_POST['sujet']
+                );
+                
+                file_put_contents("data.json", json_encode($trans));
+                exec("python ./sender_mail.py");
+
+                echo "<p style='color: #45e8fd; text-align: center; margin-bottom: 20px;'>Message envoyé avec succès!</p>";
+            } catch(PDOException $e) {
+                echo "<p style='color: #ff04ff; text-align: center; margin-bottom: 20px;'>Erreur: " . $e->getMessage() . "</p>";
+            }
+        }
+        ?>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mail">Email</label>
+                <input type="email" id="mail" name="mail" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="sujet">Sujet</label>
+                <input type="text" id="sujet" name="sujet" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="msg">Message</label>
+                <textarea id="msg" name="msg" required></textarea>
+            </div>
+            
+            <div style="text-align: center;">
+                <button type="submit" class="submit-btn">Envoyer</button>
+            </div>
+        </form>
     </div>
 
     <script>
