@@ -487,7 +487,7 @@
 </head>
 <body>
     <?php
-    $conn = new PDO("mysql:host=localhost;dbname=cyberfolio;charset=utf8", "root", "root");
+    $conn = new PDO("mysql:host=localhost;dbname=dbd;charset=utf8", "root", "root");
     $im1 = $conn->prepare("SELECT * FROM baobab");
     $im1->execute();
     $results = $im1->fetchAll(PDO::FETCH_ASSOC);
@@ -526,12 +526,65 @@
         </div>
     </div>
 
+
     <div class="contact-form" id="contactForm">
-        <h2 style="color: #a6a6a6; text-align: center; font-size: 2em;">Contactez-moi</h2>
-        <input type="text" placeholder="Votre nom" required>
-        <input type="email" placeholder="Votre email" required>
-        <textarea rows="5" placeholder="Votre message" required></textarea>
-        <button type="submit">Envoyer</button>
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            try {
+                $conn = new PDO("mysql:host=localhost;dbname=dbd", "root", "root");
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
+                $stmt = $conn->prepare("INSERT INTO contact (nom, mail, sujet, msg) VALUES (:nom, :mail, :sujet, :msg)");
+                
+                $stmt->execute([
+                    ':nom' => htmlspecialchars($_POST['nom']),
+                    ':mail' => htmlspecialchars($_POST['mail']),
+                    ':sujet' => htmlspecialchars($_POST['sujet']),
+                    ':msg' => htmlspecialchars($_POST['msg'])
+                ]);
+                
+                $trans = array(
+                    'message' => $_POST['msg'],
+                    'email' => $_POST['mail'], 
+                    'sujet' => $_POST['sujet']
+                );
+                
+                file_put_contents("data.json", json_encode($trans));
+                $python_script = "python3 send_email.py";
+                exec($python_script);
+
+
+                echo "<p style='color: #45e8fd; text-align: center; margin-bottom: 20px;'>Message envoyé avec succès!</p>";
+            } catch(PDOException $e) {
+                echo "<p style='color: #ff04ff; text-align: center; margin-bottom: 20px;'>Erreur: " . $e->getMessage() . "</p>";
+            }
+        }
+        ?>
+        <form method="POST" action="">
+            <div class="form-group">
+                <label for="nom">Nom</label>
+                <input type="text" id="nom" name="nom" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="mail">Email</label>
+                <input type="email" id="mail" name="mail" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="sujet">Sujet</label>
+                <input type="text" id="sujet" name="sujet" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="msg">Message</label>
+                <textarea id="msg" name="msg" required></textarea>
+            </div>
+            
+            <div style="text-align: center;">
+                <button type="submit" class="submit-btn">Envoyer</button>
+            </div>
+        </form>
     </div>
 
     <script>
