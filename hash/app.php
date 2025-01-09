@@ -1,20 +1,23 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['hash']) && $_POST['hash'] !== '') {
-        $hash_input = escapeshellarg($_POST['hash']);
+        $data = array(
+            'hash' => $_POST['hash']
+        );
+        
+        file_put_contents("hash.json", json_encode($data));
 
-        $python_path = 'C:\Users\Thibault-PC\AppData\Local\Microsoft\WindowsApps\python.exe';
-        $script_path = 'C:\UwAmp\www\site\app.py';
-
-        $command = escapeshellcmd("$python_path $script_path $hash_input");
-
-        $output = shell_exec($command);
-
-        if ($output === null) {
-            $error = error_get_last();
-            echo "<div class='error'>Erreur lors de l'exécution du script Python : " . $error['message'] . "</div>";
-        } else {
+        try {
+            $output = shell_exec('python app.py');
+            if ($output === null) {
+                throw new Exception("Erreur d'exécution du script Python");
+            }
+            
+            $output = trim($output);
+            
             echo "<div class='hash-result'>Type de hash détecté : " . htmlspecialchars($output) . "</div>";
+        } catch (Exception $e) {
+            echo "<div class='error'>Erreur lors de l'exécution du script Python : " . $e->getMessage() . "</div>";
         }
     } else {
         echo "<div class='error'>La valeur du hash est obligatoire.</div>";
@@ -27,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interagir avec le script Python</title>
+    <title>Détection du hash</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -130,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="container">
-        <h1>Interagir avec le script Python</h1>
+        <h1>Détection du hash</h1>
 
         <form method="POST" action="">
             <label for="hash">Entrez un hash :</label>
@@ -138,10 +141,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Analyser le hash</button>
         </form>
     </div>
-</body>
-
-</html>
-
 </body>
 
 </html>
