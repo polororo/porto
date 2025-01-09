@@ -1,10 +1,11 @@
 import sys
 import re
+import json
 
 def identify_hash(hash_string):
     hash_types = {
         "MD5": r"^[a-fA-F0-9]{32}$",
-        "SHA-1": r"^[a-fA-F0-9]{40}$",
+        "SHA-1": r"^[a-fA-F0-9]{40}$", 
         "SHA-224": r"^[a-fA-F0-9]{56}$",
         "SHA-256": r"^[a-fA-F0-9]{64}$",
         "SHA-384": r"^[a-fA-F0-9]{96}$",
@@ -27,9 +28,17 @@ def identify_hash(hash_string):
     return "Inconnu"
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        hash_input = sys.argv[1]
-        hash_type = identify_hash(hash_input)
-        print(hash_type)  
-    else:
-        print("Aucun hash fourni")
+    try:
+        with open("hash.json", "r") as file:
+            data = json.load(file)
+            hash_input = data.get("hash", "")
+            if hash_input:
+                hash_type = identify_hash(hash_input)
+                print(hash_type)
+            else:
+                print("Aucun hash trouvé dans le fichier")
+    except FileNotFoundError:
+        print("Fichier hash.json non trouvé")
+    except json.JSONDecodeError:
+        print("Erreur de lecture du fichier JSON")
+
