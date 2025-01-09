@@ -15,8 +15,8 @@ smtp_address = 'smtp.gmail.com'
 smtp_port = 465
 
 email_address = 'loannordvpn@gmail.com'
-email_password = 'vtmx uptl medj xmui'
-email_receiver = 'lcastelgay@guardiaschool.fr'
+email_password = 'donk rzga frnu qmck'
+email_receiver = 'cbenoit@guardiaschool.fr'
 
 message = MIMEMultipart('alternative')
 message['Subject'] = sujet
